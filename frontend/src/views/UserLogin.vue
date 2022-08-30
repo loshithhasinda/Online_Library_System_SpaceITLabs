@@ -48,9 +48,6 @@
 
           </div>
 
-          <button>
-            <router-link to="/user/register">Register</router-link>
-          </button>
         </div>
       </div>
     </div>
@@ -59,6 +56,7 @@
 
 <script>
 import axios from "axios";
+import swal from 'sweetalert';
 import NavBar from "../components/NavBar.vue";
 
 export default {
@@ -88,13 +86,12 @@ export default {
       axios.post("http://127.0.0.1:8000/api/auth/login", data).then((res) => {
         if (res.data.status) {
           console.log("Login Success");
-          console.log(res.data.token);
-          console.log(res.data.user);
 
           localStorage.setItem("token", res.data.token);
+          localStorage.setItem("userId", res.data.user.id);
           this.$router.push("/book/home");
         } else if (!res.data.status) {
-          console.log("Error");
+          swal("Login Failed!", "Please check your email or password", "warning");
         }
       });
     },

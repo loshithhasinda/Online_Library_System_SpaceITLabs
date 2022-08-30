@@ -2,6 +2,7 @@ import { createRouter, createWebHistory } from 'vue-router';
 import UserLogin from '../views/UserLogin.vue';
 import UserRegister from '../views/UserRegister.vue';
 import BookHome from '../views/Book/Home.vue';
+import MyBooks from '../views/Book/MyBooks.vue';
 
 const routes = [
   {
@@ -18,6 +19,11 @@ const routes = [
     path: '/book/home',
     name: 'BookHome',
     component: BookHome
+  },
+  {
+    path: '/book/myBook',
+    name: 'MyBooks',
+    component: MyBooks
   },
 ]
 const router = createRouter({

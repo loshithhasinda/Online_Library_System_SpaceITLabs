@@ -38,6 +38,7 @@
                                 <p>{{ book.description }}</p>
                                 <p>{{ book.genre }}</p>
                                 <p>{{ book.price }} LKR</p>
+                                <button type="button" class="btn btn-outline-primary" v-on:click="borrowBook((book.id),(book.title))">Borrow</button>
                             </div>
                         
                     </div>
@@ -54,6 +55,7 @@
 
 <script>
 import axios from "axios";
+import swal from 'sweetalert';
 import NavBar from "../../components/NavBar.vue";
 
 export default {
@@ -72,7 +74,7 @@ export default {
     if (localStorage.token) {
       this.isUserLogged = true;
     } else {
-      alert("Please Login!");
+      swal("Please Login!", "", "warning");
       this.$router.push("/");
     }
 
@@ -91,6 +93,22 @@ export default {
     },
     filteredBooks(){
         this.books = this.books.filter((book) => book.title.toLowerCase().includes(this.search.toLowerCase()) );
+    },
+    borrowBook(id, title){
+
+        const data = {
+            userId: localStorage.userId,
+            bookId: id,
+            bookTitle: title
+        }
+
+        console.log(data);
+
+        axios.post("http://127.0.0.1:8000/api/borrwedBooks", data).then((res) => {
+        if (res.data.status) {
+          console.log("Borrowed Success");
+        }
+      });
     }
   },
 };
