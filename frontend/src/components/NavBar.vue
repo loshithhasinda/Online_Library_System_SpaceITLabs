@@ -17,10 +17,10 @@
           <a class="navbar-brand" href="#">Online Library</a>
           <ul class="navbar-nav me-auto mb-2 mb-lg-0">
             <li class="nav-item">
-              <a class="nav-link active" aria-current="page" href="/book/home">Home</a>
+                <router-link to="/book/home" class="nav-link">Home</router-link>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="#">My Books</a>
+                <router-link to="/book/myBook" class="nav-link">My Books</router-link>
             </li>
             <li class="nav-item">
               <a class="nav-link">My Profile</a>
@@ -28,13 +28,20 @@
           </ul>
 
           <div class="d-flex">
-            <button class="btn btn-outline-success" type="submit">
-              <router-link to="/" class="nav-link">Login</router-link>
-            </button>
+            <div v-if="!isUserLogged">
+              <button class="btn btn-outline-success" type="submit">
+                <router-link to="/" class="nav-link">Login</router-link>
+              </button>
 
-            <button class="btn btn-outline-success" type="submit">
-              <router-link to="/user/register" class="nav-link">SignUp</router-link>
-            </button>
+              <button class="btn btn-outline-success" type="submit">
+                <router-link to="/user/register" class="nav-link">SignUp</router-link>
+              </button>
+            </div>
+            <div v-if="isUserLogged">
+              <button class="btn btn-outline-success" type="submit" v-on:click="signout">
+                Signout
+              </button>
+            </div>
           </div>
           
         </div>
@@ -44,7 +51,30 @@
 </template>
 
 <script>
-export default {};
+  import swal from 'sweetalert';
+export default {
+  data() {
+    return {
+      isUserLogged: false,
+    };
+  },
+  created() {
+    if (localStorage.token) {
+      this.isUserLogged = true;
+    } else {
+      this.isUserLogged = false;
+    }
+  },
+  methods:{
+    signout(){
+      localStorage.removeItem("token");
+      localStorage.removeItem("userId");
+
+      swal("Logout Successfull", "", "success");
+      this.$router.push("/");
+    }
+  }
+};
 </script>
 
 <style scoped></style>

@@ -91,11 +91,11 @@ class BorrowedBookController extends Controller
      */
     public function destroy(BorrowedBook $borrowedBook)
     {
-        $book->delete();
+        BorrowedBook::where('id', $borrowedBook)->delete();
 
         return response()->json([
             'status'=> true,
-            'book'=> $book
+            'message'=> "Book Deleted Successfully"
         ], 200);
     }
 }
