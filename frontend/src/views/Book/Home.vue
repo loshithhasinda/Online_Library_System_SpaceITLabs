@@ -18,8 +18,10 @@
                                 placeholder="Search by title description genre"
                                 v-model="search" />
 
+                                <br/><br/>
+
                                 <div class="col">
-                                    <button type="submit">Search</button>
+                                    <button type="submit" class="btn btn-primary">Search</button>
                                 </div>
                             </div>
                         </div>
@@ -91,8 +93,10 @@ export default {
         }
       });
     },
-    filteredBooks(){
-        this.books = this.books.filter((book) => book.title.toLowerCase().includes(this.search.toLowerCase()) );
+    filteredBooks(e){
+      e.preventDefault();
+      console.log(this.search)
+        this.books = this.books.filter((book) => book.title.toLowerCase().includes(this.search.toLowerCase()) || book.description.toLowerCase().includes(this.search.toLowerCase()) );
     },
     borrowBook(id, title){
 
@@ -102,13 +106,23 @@ export default {
             bookTitle: title
         }
 
-        console.log(data);
-
-        axios.post("http://127.0.0.1:8000/api/borrwedBooks", data).then((res) => {
+        swal({
+            title: "Are you sure?",
+            text: "Buy this Book",
+            icon: "",
+            buttons: true,
+            dangerMode: false,
+          }).then((willBuy) => {
+            if (willBuy) {
+              axios.post("http://127.0.0.1:8000/api/borrwedBooks", data).then((res) => {
         if (res.data.status) {
-          console.log("Borrowed Success");
+          swal("Successful", "", "success");
         }
       });
+            } 
+        });
+
+        
     }
   },
 };
@@ -123,7 +137,8 @@ export default {
 }
 #bookSection{
     background-color: white;
-    height: 300px;
+    min-height: 300px;
+    min-width: 100px;
     border: 1px solid rgb(190, 190, 190);
     border-radius: 8%;
     padding: 10px;
