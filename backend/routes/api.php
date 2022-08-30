@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\BookController;
+use App\Http\Controllers\Api\BorrowedBookController;
 
 /*
 |--------------------------------------------------------------------------
@@ -25,3 +26,4 @@ Route::post('/auth/register', [AuthController::class, 'createUser']);
 Route::post('/auth/login', [AuthController::class, 'loginUser']);
 
 Route::apiResource('books', BookController::class);
+Route::apiResource('borrwedBooks', BorrowedBookController::class);
